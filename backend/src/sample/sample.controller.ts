@@ -5,12 +5,12 @@ import { SampleService } from './sample.service';
 export class SampleController {
   constructor(private readonly sampleService: SampleService) {}
 
-  @Get()
+  @Get("/sample-list")
   findAll() {
     return this.sampleService.findAll();
   }
 
-  @Post()
+  @Post("/create-sample")
   create(@Body('name') name: string) {
     return this.sampleService.create(name);
   }
