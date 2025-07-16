@@ -1,113 +1,207 @@
-# 🚀 Oxyera Async Interview Challenge
+# 🏥 Healthcare Management Platform
 
-Hi! 👋 Welcome to the Oxyera async technical challenge. This test will help us evaluate your independence, code quality, organization, and technical decisions without ambiguity, so you can focus on delivering your best work.
-
----
-
-## 🎯 The Challenge
-
-### 📝 Description
-
-In this async challenge, you will build a full-stack mini-app to manage patients, medications, and their treatment assignments for a digital health workflow.
-
-You will implement CRUD APIs using NestJS with a SQLite database (already configured) and a minimal Next.js frontend to interact with these APIs. A patient can have multiple medication assignments, and you will implement logic to calculate the remaining days of each treatment automatically.
-
-The goal is to evaluate your ability to:
-
-- Deliver clear, scalable, maintainable code.
-
-- Handle clean API design and testing.
-
-- Build a simple, functional UI connected to your backend.
-
-- Manage your workflow independently with clear commits.
-
-This test simulates real work at Oxyera: you will receive a task, execute it end-to-end, and submit it for review, demonstrating your ownership and technical skills without requiring continuous oversight.
-
-### ✅ What will you implement 
-
-✅ **Backend (NestJS, runs on port **`8080`**)**
-
-- CRUD endpoints for:
-  - `Patient` (name, date of birth)
-  - `Medication` (name, dosage, frequency)
-  - `Assignment` (assign a medication to a patient with a start date and number of days)
-- **A patient can have multiple medication assignments**.
-- Endpoint to calculate and return **remaining days of treatment** for each assignment (based on start date + days - today).
-- Endpoints should:
-  - Return clear, structured JSON.
-  - Validate input (e.g., required fields, valid dates).
-  - Return appropriate HTTP status codes.
-  - Be covered with at least **one unit test for calculation logic**.
-
-✅ **Frontend (Next.js, runs on port **`3000`**)**
-
-- Multiple pages with Tailwind for styling.
-- Features:
-  - List patients with their assignments and remaining treatment days.
-  - Forms to create:
-    - Patients
-    - Medications
-    - Assign medications to patients.
-- Display **remaining treatment days clearly per assignment**.
-- Use a **global constant for backend URL** for clarity.
-
-✅ Use the **SQLite DB already configured in** `/backend/database.sqlite`.
-
-✅ Commit clearly and progressively, showing your reasoning in your commit messages.
-
-✅ Use **TypeScript** everywhere.
-
-✅ Structure your code cleanly to reflect scalability.
+A full-stack, production-ready system to manage Patients, Medications, and Treatment Assignments in a clinical workflow. This project leverages **NestJS** for the backend API, **Next.js** for the frontend, and **Docker** for deployment.
 
 ---
 
-## ⚡ What We’re Evaluating
+## 📚 Table of Contents
 
-- Clear and scalable folder structure.
-- Proper API design and HTTP handling.
-- Input validation and error handling.
-- Consistent, readable code.
-- Use of TypeScript types for safety.
-- Test quality and coverage of core logic.
-- Ability to deliver a working feature with clean commits.
-- UI clarity and correct functional connection with your backend.
+- [Features](#features)
+- [Backend Overview](#backend-overview)
+- [Frontend Overview](#frontend-overview)
+- [Testing Report](#testing-report)
+- [Tech Stack](#tech-stack)
+- [Dockerized Deployment](#dockerized-deployment)
+- [How to Run in Production](#how-to-run-in-production)
+- [Author](#author)
 
 ---
 
-## 🚀 Running the Project
+## ✨ Features
+
+- 🧑‍⚕️ Patient & Medication Management  
+- 💊 Assignment of medications to patients  
+- 📈 Dashboard with clinical insights  
+- 🔐 Authentication with role-based access (Admin, Doctor, Nurse)  
+- 🔔 Smart notifications (overdue, success)  
+- ⚙️ Settings page for user management and preferences  
+- 📦 Fully containerized with Docker  
+- 🧪 Unit and API testing using Jest, Postman, cURL  
+
+---
+
+## 🛠 Backend Overview
+
+### ✅ PatientController & Service
+
+- `POST /patients` — Add a patient  
+- `GET /patients` — List all patients  
+- `GET /patients/:id` — Retrieve one patient  
+- `PUT /patients/:id` — Update patient info  
+- `DELETE /patients/:id` — Delete patient  
+
+### 💊 MedicationController & Service
+
+- `POST /medications`  
+- `GET /medications`  
+- `GET /medications/:id`  
+- `PUT /medications/:id`  
+- `DELETE /medications/:id`  
+
+### 🔗 AssignmentController & Service
+
+- `POST /assignments` — Assign a medication to a patient  
+- `GET /assignments` — List all assignments  
+- `GET /assignments/:id` — View assignment details  
+- `PUT /assignments/:id` — Update assignment duration  
+- `DELETE /assignments/:id` — Delete assignment  
+- `GET /assignments/remaining-days` — Calculate remaining treatment days  
+
+### 🧰 Utility
+
+- `getPatientRemainingDays(name, dateOfBirth)` — Internal helper for remaining days  
+
+---
+
+## 💻 Frontend Overview
+
+Built with **Next.js 14**, **React 18**, and **Tailwind CSS**.
+
+### 🔐 Authentication & Role-Based Access
+
+- Login with secure session persistence  
+- Roles: Admin, Doctor, Nurse  
+- UI adapts per role (guarded routes, dashboards)  
+
+### 👨‍⚕️ Patient & Medication UI
+
+- Add/edit/delete patients and medications  
+- Real-time search  
+- Category-based medication stats  
+
+### 📅 Treatment Assignment UI
+
+- Assign medication with dates  
+- Track progress & overdue status  
+- Visual status indicators  
+
+### 📊 Dashboard & Notifications
+
+- Realtime counters (Active, Completed, Overdue)  
+- Clinical insights per role  
+- Alerts with navigation  
+
+### ⚙️ Settings
+
+- Profile update  
+- Password change with validation  
+- Light/Dark mode support  
+
+---
+
+## 🧪 Testing Report
+
+### ✅ Unit Testing
+
+- Covered: `PatientService`, `MedicationService`, `AssignmentService`  
+- Framework: **Jest**  
+- Mocked DB with `getRepositoryToken()`  
+- Validated:
+  - CRUD logic  
+  - Remaining days calculation  
+  - DTO validations  
+  - Edge cases (invalid IDs, errors)  
+
+### 🧪 API Testing
+
+- Tools: **Postman**, **cURL**  
+- Sample command:
+
+```bash
+curl --request PUT 'http://localhost:8080/assignment/assignment-update/3' --header 'Content-Type: application/json' --data '{
+  "startDate": "2025-07-09",
+  "numberOfDays": 3
+}'
+```
+
+---
+
+## 🧰 Tech Stack
+
+| Layer      | Technologies Used                      |
+|------------|----------------------------------------|
+| Frontend   | Next.js, React, Tailwind CSS, Radix UI |
+| Backend    | NestJS, TypeORM, SQLite                |
+| Auth       | Session + Role-based Guards            |
+| Testing    | Jest, Postman, cURL                    |
+| Deployment | Docker, Docker Compose                 |
+
+---
+
+## 🐳 Dockerized Deployment
+
+Both frontend and backend are dockerized and orchestrated with **docker-compose**.
+
+---
+
+## 🧱 Folder Structure
+
+```bash
+project-root/
+│
+├── backend/        # NestJS API
+│   ├── Dockerfile
+│   └── database.sqlite
+│
+├── frontend/       # Next.js App
+│   └── Dockerfile
+│
+├── docker-compose.yml
+└── README.md
+```
+
+---
+
+## 🚀 How to Run in Production
+
+### 🔧 Prerequisites
+
+- Docker installed  
+- Docker Compose installed  
+
+### 🏗️ Build Docker Images
 
 **Backend:**
 
 ```bash
 cd backend
-npm install
-npm run start:dev
+docker build -t meddali/interview-oxyera-challenge-back-end:0.0.1 .
 ```
-
-Access on `http://localhost:8080`.
 
 **Frontend:**
 
 ```bash
 cd frontend
-npm install
-npm run dev
+docker build -t meddali/interview-oxyera-challenge-front-end:0.0.1 .
 ```
 
-Access on `http://localhost:3000`.
+### 🧪 Run with Docker Compose
 
-The SQLite database is located at `backend/database.sqlite`.
+From the root directory:
+
+```bash
+docker-compose up -d
+```
+
+### 🌐 Access the App
+
+- Frontend: [http://localhost:3000](http://localhost:3000)  
+- Backend API: [http://localhost:8080](http://localhost:8080)  
 
 ---
 
-## 📩 Submission
+## 👨‍💻 Author
 
-✅ Complete by one week after you recieved the assignment. 
-
-✅ Push to your your personal forked repo. 
-
-✅ Email your repo link to [dev@oxyera.com](mailto\:dev@oxyera.com).
-
-Thank you for your interest in Oxyera. We look forward to reviewing your structured, clear, and working solution!
-
+**Mohamed Ali Jaziri**  
+Software Engineer  
+[GitHub](https://github.com/MedDali-Jaziri) | [LinkedIn](https://www.linkedin.com/in/dalijaziri/)
