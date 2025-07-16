@@ -18,7 +18,6 @@ import { AuthGuard } from "@/components/auth-guard";
 import { PermissionGuard } from "@/components/permission-guard";
 import { Header } from "@/components/header";
 import { useAuth } from "@/lib/auth";
-import { useRouter } from "next/navigation";
 import { API_BASE_URL } from "@/lib/constant";
 
 interface Medication {
@@ -30,7 +29,6 @@ interface Medication {
 
 function MedicationsContent() {
   const { user } = useAuth();
-  const router = useRouter();
   const [medications, setMedications] = useState<Medication[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
@@ -60,7 +58,7 @@ function MedicationsContent() {
         const frequencies = data.data.map((m: Medication) => m.frequency);
         const frequencyCount: Record<string, number> = {};
 
-        frequencies.forEach((freq: any) => {
+        frequencies.forEach((freq: string) => {
           frequencyCount[freq] = (frequencyCount[freq] || 0) + 1;
         });
 

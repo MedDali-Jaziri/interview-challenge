@@ -1,8 +1,8 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge"
-import { type UserRole } from "@/types/permissions-interface"
 import { Shield, UserCheck, Heart } from "lucide-react"
+import type { UserRole } from "@/lib/permissions"
 
 interface RoleBadgeProps {
   role: UserRole

@@ -20,7 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Save, Calendar, User, Pill, Trash2 } from "lucide-react";
+import { ArrowLeft, Save, Calendar, User, Pill } from "lucide-react";
 import { API_BASE_URL } from "@/lib/constant";
 
 interface Patient {
@@ -62,7 +62,6 @@ export default function EditAssignmentPage() {
 
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {

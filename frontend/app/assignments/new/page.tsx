@@ -94,11 +94,11 @@ function NewAssignmentContent() {
 
         setPatients(extractedPatients);
         setMedications(extractedMedications);
-      } catch (error: any) {
+      } catch (error) {
         console.error("Data fetch error:", error);
         toast({
           title: "Error",
-          description: error.message || "Failed to load data",
+          description: "Failed to load data",
           variant: "destructive",
         });
       } finally {
@@ -152,11 +152,11 @@ function NewAssignmentContent() {
       });
 
       router.push("/assignments");
-    } catch (error: any) {
+    } catch (error) {
       console.error("Create assignment error:", error);
       toast({
         title: "Error",
-        description: error.message || "Failed to create assignment",
+        description: "Failed to create assignment "+error,
         variant: "destructive",
       });
     } finally {

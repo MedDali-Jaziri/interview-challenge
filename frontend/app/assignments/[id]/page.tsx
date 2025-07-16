@@ -8,7 +8,6 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,10 +21,6 @@ import {
   Edit,
   CheckCircle,
   AlertCircle,
-  Loader2,
-  ClipboardList,
-  CalendarDays,
-  Activity,
 } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
@@ -57,6 +52,11 @@ interface AssignmentDetails {
   remainingDays: number;
 }
 
+interface RemainingDaysEntry {
+  "Assignment Id: ": string;
+  "Remaining Days: ": number;
+}
+
 export default function AssignmentDetailsPage() {
   const params = useParams();
   const router = useRouter();
@@ -65,7 +65,7 @@ export default function AssignmentDetailsPage() {
   const [assignment, setAssignment] = useState<AssignmentDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [completing, setCompleting] = useState(false);
+  const [, setCompleting] = useState(false);
 
   useEffect(() => {
     const fetchAssignmentDetails = async () => {
@@ -95,9 +95,8 @@ export default function AssignmentDetailsPage() {
         const remainingList = remainingData.data;
 
         // 3. Match by assignment ID and extract remaining days
-        const matchingEntry = remainingList.find(
-          (entry: any) =>
-            `${entry["Assignment Id: "]}` === `${assignmentData.id}`
+        const matchingEntry = (remainingList as RemainingDaysEntry[]).find(
+          (entry) => `${entry["Assignment Id: "]}` === `${assignmentData.id}`
         );
 
         const remainingDays = matchingEntry
@@ -130,37 +129,6 @@ export default function AssignmentDetailsPage() {
       fetchAssignmentDetails();
     }
   }, [assignmentId]);
-
-  // Calculate assignment status based on dates
-  const calculateAssignmentStatus = (
-    startDate: string,
-    totalDays: number
-  ): { status: "active" | "completed" | "overdue" } => {
-    const start = new Date(startDate);
-    const end = new Date(start);
-    end.setDate(start.getDate() + totalDays - 1);
-    const today = new Date();
-
-    // Normalize dates to compare without time
-    const todayDate = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate()
-    );
-    const endDate = new Date(end.getFullYear(), end.getMonth(), end.getDate());
-
-    if (todayDate > endDate) {
-      const diffTime = Math.abs(todayDate.getTime() - endDate.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return { status: "completed" };
-    } else if (todayDate < start) {
-      return { status: "active" };
-    } else {
-      const diffTime = Math.abs(endDate.getTime() - todayDate.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return { status: "active" };
-    }
-  };
 
   const handleMarkComplete = async () => {
     if (!assignment) return;
@@ -367,7 +335,7 @@ export default function AssignmentDetailsPage() {
             Assignment Not Found
           </h2>
           <p className="text-gray-600 mb-4">
-            The assignment you're looking for doesn't exist.
+            The assignment you&apos;re looking for doesn&apos;t exist.
           </p>
           <Link href="/assignments">
             <Button>Back to Assignments</Button>

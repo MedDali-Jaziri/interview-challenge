@@ -81,10 +81,12 @@ export default function EditMedicationPage() {
         } else {
           setError("Medication not found");
         }
-      } catch (err: any) {
-        setError(
-          err.message || "An error occurred while loading medication data"
-        );
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unexpected error occurred");
+        }
       } finally {
         setLoading(false);
       }
@@ -123,10 +125,12 @@ export default function EditMedicationPage() {
 
       // Success - redirect to medication list
       router.push("/medications");
-    } catch (err: any) {
-      setError(
-        err.message || "An error occurred while updating the medication"
-      );
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -159,10 +163,12 @@ export default function EditMedicationPage() {
 
       // Success - redirect to medication list
       router.push("/medications");
-    } catch (err: any) {
-      setError(
-        err.message || "An error occurred while deleting the medication"
-      );
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setIsDeleting(false);
     }
@@ -233,7 +239,7 @@ export default function EditMedicationPage() {
             Medication Not Found
           </h2>
           <p className="text-gray-600 mb-4">
-            The medication you're looking for doesn't exist.
+            The medication you&apos;re looking for doesn&apos;t exist.
           </p>
           <Link href="/medications">
             <Button>Back to Medications</Button>

@@ -59,8 +59,8 @@ export default function EditPatientPage() {
         } else {
           setError("Patient not found");
         }
-      } catch (err: any) {
-        setError(err.message || "An error occurred while loading patient data");
+      } catch (err) {
+        setError(err + "An error occurred while loading patient data");
       } finally {
         setLoading(false);
       }
@@ -98,8 +98,12 @@ export default function EditPatientPage() {
 
       // Success - redirect to patient list
       router.push("/patients");
-    } catch (err: any) {
-      setError(err.message || "An error occurred while updating the patient");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -132,8 +136,12 @@ export default function EditPatientPage() {
 
       // Success - redirect to patient list
       router.push("/patients");
-    } catch (err: any) {
-      setError(err.message || "An error occurred while deleting the patient");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setIsDeleting(false);
     }
@@ -219,7 +227,7 @@ export default function EditPatientPage() {
             Patient Not Found
           </h2>
           <p className="text-gray-600 mb-4">
-            The patient you're looking for doesn't exist.
+            The patient you&apos;re looking for doesn&apos;t exist.
           </p>
           <Link href="/patients">
             <Button>Back to Patients</Button>
@@ -256,7 +264,7 @@ export default function EditPatientPage() {
               Patient Information
             </CardTitle>
             <CardDescription>
-              Update the patient's information below.
+              Update the patient&apos;s information below.
             </CardDescription>
           </CardHeader>
           <CardContent>

@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Lock, Mail, Heart } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 
@@ -45,12 +45,18 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <div className="bg-blue-600 p-3 rounded-full">
-              <Heart className="w-8 h-8 text-white" />
+            <div>
+              <img
+                src="/Logo_Oxyera.png"
+                alt="Oxyera Logo"
+                width={100}
+                height={100}
+                className="object-contain"
+              ></img>
             </div>
           </div>
           <h1 className="text-3xl font-bold text-gray-900">
-            Oxyera HealthFlow
+            Oxyera - HealthFlow
           </h1>
           <p className="text-gray-600">Digital Health Workflow Management</p>
         </div>

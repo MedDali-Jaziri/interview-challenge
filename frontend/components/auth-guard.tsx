@@ -1,27 +1,27 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useAuth } from "@/lib/auth"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useAuth } from "@/lib/auth";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 interface AuthGuardProps {
-  children: React.ReactNode
-  allowedRoles?: ("admin" | "doctor" | "nurse")[]
+  children: React.ReactNode;
+  allowedRoles?: ("admin" | "doctor" | "nurse")[];
 }
 
 export function AuthGuard({ children, allowedRoles }: AuthGuardProps) {
-  const { user, isLoading } = useAuth()
-  const router = useRouter()
+  const { user, isLoading } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (!isLoading && !user) {
-      router.push("/login")
+      router.push("/login");
     } else if (user && allowedRoles && !allowedRoles.includes(user.role)) {
-      router.push("/unauthorized")
+      router.push("/unauthorized");
     }
-  }, [user, isLoading, router, allowedRoles])
+  }, [user, isLoading, router, allowedRoles]);
 
   if (isLoading) {
     return (
@@ -31,23 +31,27 @@ export function AuthGuard({ children, allowedRoles }: AuthGuardProps) {
           <p className="text-gray-600">Loading...</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (!user) {
-    return null
+    return null;
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h2>
-          <p className="text-gray-600">You don't have permission to access this page.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Access Denied
+          </h2>
+          <p className="text-gray-600">
+            You don&apos;t have permission to access this page.
+          </p>
         </div>
       </div>
-    )
+    );
   }
 
-  return <>{children}</>
+  return <>{children}</>;
 }

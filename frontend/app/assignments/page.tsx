@@ -39,14 +39,6 @@ interface Medication {
   frequency: string;
 }
 
-interface Assignment {
-  id: string;
-  patientId: string;
-  medicationId: string;
-  startDate: string;
-  totalDays: number;
-}
-
 interface AssignmentWithDetails {
   id: string;
   patientName: string;
@@ -57,6 +49,14 @@ interface AssignmentWithDetails {
   frequency?: string;
   startDate?: string;
   totalDays?: number;
+}
+
+interface RawAssignment {
+  "Assignment Id: ": string;
+  "Patient Name: ": string;
+  "Medication Name: ": string;
+  "Remaining Days: ": number;
+  // Add other fields here if needed
 }
 
 function calculateAge(dateOfBirth: string): number {
@@ -114,11 +114,9 @@ function AssignmentsContent() {
 
         // Transform assignment data to include status and details
         const transformedAssignments = (assignmentsData.data || []).map(
-          (item: any) => {
-            console.log(item);
-
+          (item: RawAssignment): AssignmentWithDetails => {
             const remainingDays = item["Remaining Days: "] || 0;
-            const status =
+            const status: AssignmentWithDetails["status"] =
               remainingDays > 0
                 ? "active"
                 : remainingDays === 0

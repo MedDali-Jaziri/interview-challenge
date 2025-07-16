@@ -24,7 +24,6 @@ import { AuthGuard } from "@/components/auth-guard";
 import { PermissionGuard } from "@/components/permission-guard";
 import { Header } from "@/components/header";
 import { useAuth } from "@/lib/auth";
-import { useRouter } from "next/navigation";
 import { API_BASE_URL } from "@/lib/constant";
 
 interface Patient {
@@ -36,7 +35,6 @@ interface Patient {
 
 function PatientsContent() {
   const { user } = useAuth();
-  const router = useRouter();
   const [patients, setPatients] = useState<Patient[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
@@ -58,11 +56,12 @@ function PatientsContent() {
         }
 
         const data = await response.json();
-        const patientsWithAge = data.data.map((patient: any) => ({
-          ...patient,
-          id: patient.id,
-          age: calculateAge(patient.dateOfBirth),
-        }));
+        const patientsWithAge: Patient[] = data.data.map(
+          (patient: Omit<Patient, "age">) => ({
+            ...patient,
+            age: calculateAge(patient.dateOfBirth),
+          })
+        );
 
         setPatients(patientsWithAge);
 
@@ -73,14 +72,17 @@ function PatientsContent() {
         setStats({
           total: patientsWithAge.length,
           active: patientsWithAge.length, // This would come from backend in real app
-          newThisMonth: patientsWithAge.filter((p: any) => {
+          newThisMonth: patientsWithAge.filter((p) => {
             const dobMonth = new Date(p.dateOfBirth).getMonth();
             return dobMonth === thisMonth;
           }).length,
         });
-      } catch (err) {
-        setError("Failed to load patient data. Please try again later.");
-        console.error("Patient fetch error:", err);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unexpected error occurred");
+        }
       } finally {
         setLoading(false);
       }

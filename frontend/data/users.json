@@ -1,0 +1,37 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "admin@oxyera.com",
+      "password": "admin123",
+      "name": "Dr. Mohamed Ali (Dali)",
+      "role": "admin",
+      "phone": "+1 (555) 123-4567",
+      "department": "Administration",
+      "joinDate": "2023-01-15",
+      "lastLogin": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": "2",
+      "email": "doctor@oxyera.com",
+      "password": "doctor123",
+      "name": "Dr. Francesco",
+      "role": "doctor",
+      "phone": "+1 (555) 234-5678",
+      "department": "Cardiology",
+      "joinDate": "2023-03-20",
+      "lastLogin": "2024-01-14T14:20:00Z"
+    },
+    {
+      "id": "3",
+      "email": "nurse@oxyera.com",
+      "password": "nurse123",
+      "name": "Nurse Cristina",
+      "role": "nurse",
+      "phone": "+1 (555) 345-6789",
+      "department": "General Medicine",
+      "joinDate": "2023-06-10",
+      "lastLogin": "2024-01-14T16:45:00Z"
+    }
+  ]
+}

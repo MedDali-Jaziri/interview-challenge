@@ -49,8 +49,12 @@ export default function NewPatientPage() {
 
       // Success - redirect to patient list
       router.push("/patients");
-    } catch (err: any) {
-      setError(err.message || "An error occurred while creating the patient");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -100,7 +104,7 @@ export default function NewPatientPage() {
               Patient Information
             </CardTitle>
             <CardDescription>
-              Enter the patient's basic information to create their record.
+              Enter the patient&apos;s basic information to create their record.
             </CardDescription>
           </CardHeader>
           <CardContent>
