@@ -1,0 +1,28 @@
+# Specifies the Docker Compose file format version (3.8 is widely supported)
+version: '3.8'
+
+# Start of the services definition block
+services:
+  # Define the first service named "frontend"
+  frontend:  
+    # Use this image for the frontend
+    image: meddali/interview-oxyera-challenge-front-end:0.0.1
+    # Map port 3000 on the host to port 3000 in the container
+    ports:
+      - "3000:3000"
+    # Assign a custom name to the frontend container
+    container_name: oxyera-frontend
+    # Automatically restart unless the container is manually stopped
+    restart: unless-stopped
+
+  # Define the second service named "backend"
+  backend:  
+    # Use this image for the backend
+    image: meddali/interview-oxyera-challenge-back-end:0.0.1
+    ports:
+      # Map port 8080 on the host to port 8080 in the container
+      - "8080:8080"
+    # Assign a custom name to the backend container
+    container_name: oxyera-backend
+    # Automatically restart unless the container is manually stopped
+    restart: unless-stopped
