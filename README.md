@@ -175,14 +175,14 @@ project-root/
 
 ```bash
 cd backend
-docker build -t meddali/interview-oxyera-challenge-back-end:0.0.1 .
+docker build -t interview-oxyera-challenge-back-end:0.0.1 .
 ```
 
 **Frontend:**
 
 ```bash
 cd frontend
-docker build -t meddali/interview-oxyera-challenge-front-end:0.0.1 .
+docker build -t interview-oxyera-challenge-front-end:0.0.1 .
 ```
 
 ### 🧪 Run with Docker Compose

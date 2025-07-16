@@ -6,7 +6,7 @@ services:
   # Define the first service named "frontend"
   frontend:  
     # Use this image for the frontend
-    image: meddali/interview-oxyera-challenge-front-end:0.0.1
+    image: meddali/interview-oxyera-challenge-frontend:0.0.1
     # Map port 3000 on the host to port 3000 in the container
     ports:
       - "3000:3000"
@@ -18,7 +18,7 @@ services:
   # Define the second service named "backend"
   backend:  
     # Use this image for the backend
-    image: meddali/interview-oxyera-challenge-back-end:0.0.1
+    image: meddali/interview-oxyera-challenge-backend:0.0.1
     ports:
       # Map port 8080 on the host to port 8080 in the container
       - "8080:8080"
